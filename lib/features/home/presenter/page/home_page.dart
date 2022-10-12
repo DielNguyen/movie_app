@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/style/app_colors.dart';
 import 'package:movie_app/common/widgets/dismiss_keyboard_widget.dart';
 import 'package:movie_app/common/widgets/mc_text.dart';
+import 'package:movie_app/features/home/presenter/bloc/movie/movie_bloc.dart';
+import 'package:movie_app/features/home/presenter/bloc/movie/movie_state.dart';
 import 'package:movie_app/features/home/presenter/widgets/list_movie_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -80,17 +83,25 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                             ],
                           ),
                         ),
-                        MCText(text: 'Coming Soon'),
+                        MCText(text: 'Coming Soonn'),
                       ],
                     )
                   ),
                   Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: const [
-                        HomeListMovieWidget(),
-                        HomeListMovieWidget(),
-                      ],
+                    child: BlocConsumer<MovieBloc, MovieState>(
+                      listener: (context, state){
+
+                      },
+                      builder: (context, state) {
+                        print(state);
+                        return TabBarView(
+                          controller: _tabController,
+                          children: const [
+                            HomeListMovieWidget(),
+                            HomeListMovieWidget(),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ],
