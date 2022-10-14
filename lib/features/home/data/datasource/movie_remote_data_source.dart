@@ -23,8 +23,12 @@ class MovieRemoteDatasourceIplm implements MovieRemoteDataSource {
     });
     if(response.statusCode == 200) {
       final List decodeJson = json.decode(response.body) as List;
+
       final List<MovieModel> movieModels = decodeJson
-          .map<MovieModel>((e) => MovieModel.fromJson(e))
+          .map<MovieModel>((e) {
+
+            return MovieModel.fromJson(e);
+          })
           .toList();
       return movieModels;
     } else {

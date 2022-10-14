@@ -13,4 +13,18 @@ class TextStyles {
   static const p1WhiteMedium5 = TextStyle(fontSize: 14, color: AppColors.white, fontWeight: FontWeight.w400);
   static const p1BlackMedium = TextStyle(fontSize: 14, color: AppColors.white, fontWeight: FontWeight.w400);
 
+  // h1
+  static const h1Medium = TextStyle(fontSize: 24, fontWeight: FontWeight.w500);
+
+  // h2
+  static const h2Semibold = TextStyle(fontSize: 24, fontWeight: FontWeight.w600);
+
+  // h3
+  static const h3 = TextStyle(fontSize: 16, fontWeight: FontWeight.w400);
+
+  // h4
+  static const h4 = TextStyle(fontSize: 14, fontWeight: FontWeight.w400);
+  static const h4MediumLightBlue = TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.lightBlue);
+  static const h4Medium = TextStyle(fontSize: 14, fontWeight: FontWeight.w500);
+
 }

@@ -16,9 +16,9 @@ class AppColors {
   static const redDark = Color(0xffe51937);
   static const redLight = Color(0xffe51937);
 
-  static const primary = Color(0xFF000000);
+  static const primary = Color(0xFF2B3543);
 
-  static const radial1 = Color(0xFF241352);
+  static const radial1 = Color(0xFF0F1B2B);
 
   static const radial2 = Color(0xFF0A204A);
 

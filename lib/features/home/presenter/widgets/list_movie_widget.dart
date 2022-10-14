@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/common/resources/resources.dart';
+import 'package:movie_app/common/router/app_routes.dart';
+import 'package:movie_app/features/home/domain/entities/movies_entity.dart';
+import 'package:movie_app/features/home/presenter/page/detail_movie.dart';
 
 class HomeListMovieWidget extends StatefulWidget {
-  const HomeListMovieWidget({Key? key}) : super(key: key);
+  final List<MovieEntity> movies;
+
+  const HomeListMovieWidget({Key? key, required this.movies}) : super(key: key);
 
   @override
   State<HomeListMovieWidget> createState() => _MCSearchTextFieldState();
 }
 
 class _MCSearchTextFieldState extends State<HomeListMovieWidget> {
+  
+  _detailMovie(MovieEntity movie){
+    Navigator.pushNamed(
+        context, R.DetailMovie, arguments: DetailMoviePageArguments(
+        movieEntity: movie
+    ));
+  }
+  
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -22,14 +34,14 @@ class _MCSearchTextFieldState extends State<HomeListMovieWidget> {
       ),
       shrinkWrap: true,
       padding: EdgeInsets.zero,
-      itemCount: 20,
+      itemCount: widget.movies.length,
       itemBuilder: (_, position) => InkWell(
-        onTap: () { },
+        onTap: () {_detailMovie(widget.movies[position]); },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              Imgs.splash,
+            Image.network(
+              widget.movies[position].avatar,
               fit: BoxFit.cover,
               height: 250.h,
               width: double.infinity,
@@ -68,8 +80,8 @@ class _MCSearchTextFieldState extends State<HomeListMovieWidget> {
                 ),
               ],
             ),
-            Text('John Wick 3'),
-            Text('Crime • 2hr 10m | R'),
+            Text(widget.movies[position].name),
+            Text(widget.movies[position].des),
           ],
         ),
       ),

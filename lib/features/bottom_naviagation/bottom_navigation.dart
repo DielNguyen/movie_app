@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/style/app_colors.dart';
+import 'package:movie_app/features/account/presenter/page/account_page.dart';
 import 'package:movie_app/features/home/presenter/page/home_page.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
@@ -15,14 +16,12 @@ class _MyStatefulWidgetState extends State<BottomNavigationScreen> {
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     Text(
-      'Index 1: Discover',
-    ),
-    Text(
       'Index 2: Coming',
     ),
     Text(
       'Index 3: Account',
     ),
+    AccountPage(),
   ];
 
   void _onItemTapped(int index) {

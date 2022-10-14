@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/style/app_colors.dart';
 import 'package:movie_app/common/widgets/dismiss_keyboard_widget.dart';
+import 'package:movie_app/common/widgets/loading/loading.dart';
+import 'package:movie_app/common/widgets/loading/loading_widget.dart';
 import 'package:movie_app/common/widgets/mc_text.dart';
 import 'package:movie_app/features/home/presenter/bloc/movie/movie_bloc.dart';
 import 'package:movie_app/features/home/presenter/bloc/movie/movie_state.dart';
@@ -15,7 +18,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -55,58 +59,62 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(4.w),
+                      padding: EdgeInsets.all(4.w),
                       margin: EdgeInsets.only(bottom: 16.h),
-
                       decoration: BoxDecoration(
-                      border: const Border(
-                        top: BorderSide(color: AppColors.borderBottomBarDark),
-                        left: BorderSide(color: AppColors.borderBottomBarDark),
-                        right: BorderSide(color: AppColors.borderBottomBarDark),
-                        bottom:
-                            BorderSide(color: AppColors.borderBottomBarDark),
-                      ),
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: TabBar(
-                      controller: _tabController,
-                      indicatorColor: AppColors.transparent,
-                      tabs: [
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 7.h),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.play_circle),
-                              MCText(text: 'Now Showing')
-                            ],
-                          ),
+                        border: const Border(
+                          top: BorderSide(color: AppColors.borderBottomBarDark),
+                          left:
+                              BorderSide(color: AppColors.borderBottomBarDark),
+                          right:
+                              BorderSide(color: AppColors.borderBottomBarDark),
+                          bottom:
+                              BorderSide(color: AppColors.borderBottomBarDark),
                         ),
-                        MCText(text: 'Coming Soonn'),
-                      ],
-                    )
-                  ),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: TabBar(
+                        controller: _tabController,
+                        indicatorColor: AppColors.transparent,
+                        tabs: [
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 7.h),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.play_circle),
+                                MCText(text: 'Now Showing')
+                              ],
+                            ),
+                          ),
+                          MCText(text: 'Coming Soonn'),
+                        ],
+                      )),
                   Expanded(
                     child: BlocConsumer<MovieBloc, MovieState>(
-                      listener: (context, state){
+                      listener: (context, state) {
 
                       },
                       builder: (context, state) {
-                        print(state);
-                        return TabBarView(
-                          controller: _tabController,
-                          children: const [
-                            HomeListMovieWidget(),
-                            HomeListMovieWidget(),
-                          ],
-                        );
+                        if(state is LoadingMovieState){
+                          return LoadingWidget();
+                        } else if (state is LoadedMovieState){
+                          return TabBarView(
+                            controller: _tabController,
+                            children: [
+                              HomeListMovieWidget(movies: state.movies),
+                              HomeListMovieWidget(movies: state.movies),
+                            ],
+                          );
+                        }
+
+                        return LoadingWidget();
                       },
                     ),
                   ),
                 ],
               ),
-            ))
-    );
+            )));
   }
 }

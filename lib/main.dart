@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/common/router/app_routes.dart';
 import 'package:movie_app/common/style/styles.dart';
+import 'package:movie_app/features/account/presenter/bloc/login_bloc.dart';
+import 'package:movie_app/features/account/presenter/bloc/login_event.dart';
 import 'package:movie_app/features/home/presenter/bloc/movie/movie_bloc.dart';
 import 'package:movie_app/features/home/presenter/bloc/movie/movie_event.dart';
 import 'injection_container.dart' as di;
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => di.sl<MovieBloc>()..add(GetAllMovieEvent())),
+          BlocProvider(create: (_) => di.sl<LoginBloc>()),
           // BlocProvider(create: (_) => di.sl<AddDeleteUpdatePostBloc>())
         ],
         child: ScreenUtilInit(

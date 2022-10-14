@@ -1,6 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/common/network/network_info.dart';
+import 'package:movie_app/features/account/data/datasource/login_remote_data_source.dart';
+import 'package:movie_app/features/account/data/repositories/login_repository_impl.dart';
+import 'package:movie_app/features/account/domain/repositories/login_reposiory.dart';
+import 'package:movie_app/features/account/domain/usecase/login_usecase.dart';
+import 'package:movie_app/features/account/presenter/bloc/login_bloc.dart';
 import 'package:movie_app/features/home/data/datasource/movie_local_data_source.dart';
 import 'package:movie_app/features/home/data/datasource/movie_remote_data_source.dart';
 import 'package:movie_app/features/home/data/repositories/movies_repository_impl.dart';
@@ -19,11 +24,13 @@ Future<void> init() async{
   // BLOC
   // - Movie
   sl.registerFactory(() => MovieBloc(getAllMovies: sl()));
+  sl.registerFactory(() => LoginBloc(loginUsecase: sl()));
   // - Movie detail
 
 
   // USECASE
   sl.registerLazySingleton(() => GetAllMoviesUseCase(sl()));
+  sl.registerLazySingleton(() => LoginUsecase(sl()));
 
 
   // REPOSITORY
@@ -32,10 +39,15 @@ Future<void> init() async{
       remoteDataSource: sl(),
       networkInfo: sl()
   ));
+  sl.registerLazySingleton<ILoginRepository>(() => LoginRepositoryImpl(
+      remoteDataSource: sl(),
+      networkInfo: sl()
+  ));
 
   // DATASOURCE
   sl.registerLazySingleton<MovieRemoteDataSource>(() => MovieRemoteDatasourceIplm(client: sl()));
   sl.registerLazySingleton<MovieLocalDataSource>(() => MovieLocalDataSourceIplm(sharedPreferences: sl()));
+  sl.registerLazySingleton<LoginRemoteDataSource>(() => LoginDatasourceIplm(client: sl()));
 
   // CORE
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
